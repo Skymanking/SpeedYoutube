@@ -1,0 +1,13 @@
+{
+  "manifest_version": 3,
+  "name": "Speed Youtube",
+  "description": "Change Youtube Speed",
+  "version": "1.0",
+  "content_scripts": [
+    {
+      "matches": ["https://*.youtube.com/", "https://www.youtube.com/*"],
+      "css": ["css/style.css"],
+      "js": ["js/custom.js"]
+    }
+  ]
+}
