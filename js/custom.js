@@ -82,6 +82,11 @@ showControls();
 
 // Replace deprecated onkeypress with addEventListener
 document.addEventListener('keydown', function(evt) {
+  // Only respond to single key presses, not combinations
+  if (evt.ctrlKey || evt.altKey || evt.shiftKey || evt.metaKey) {
+    return;
+  }
+  
   var speed = document.querySelector("video").playbackRate;
   var charStr = evt.key;
   
