@@ -34,6 +34,7 @@ decreaseBtn.addEventListener('click', () => {
     initSpeed = newSpeed;
     localStorage.setItem("speedYoutube", initSpeed);
     speedDisplay.innerHTML = `<i class="fas fa-tachometer-alt icon"></i> ${newSpeed}`;
+    showControls();
 });
 
 increaseBtn.addEventListener('click', () => {
@@ -43,6 +44,7 @@ increaseBtn.addEventListener('click', () => {
     initSpeed = newSpeed;
     localStorage.setItem("speedYoutube", initSpeed);
     speedDisplay.innerHTML = `<i class="fas fa-tachometer-alt icon"></i> ${newSpeed}`;
+    showControls();
 });
 
 speedDisplay.addEventListener('click', () => {
@@ -51,6 +53,7 @@ speedDisplay.addEventListener('click', () => {
   initSpeed = 1;
   localStorage.setItem("speedYoutube", initSpeed);
   speedDisplay.innerHTML = `<i class="fas fa-tachometer-alt icon"></i> 1`;
+  showControls();
 });
 
 // Add elements to container
@@ -58,6 +61,24 @@ controlsContainer.appendChild(decreaseBtn);
 controlsContainer.appendChild(speedDisplay);
 controlsContainer.appendChild(increaseBtn);
 document.body.appendChild(controlsContainer);
+
+// Function to show controls
+function showControls() {
+    controlsContainer.classList.remove('hidden');
+    
+    // Clear any existing timeout
+    if (window.hideControlsTimeout) {
+        clearTimeout(window.hideControlsTimeout);
+    }
+    
+    // Set timeout to hide controls after 5 seconds
+    window.hideControlsTimeout = setTimeout(() => {
+        controlsContainer.classList.add('hidden');
+    }, 5000);
+}
+
+// Show controls initially and set timeout to hide them
+showControls();
 
 document.onkeypress = function (evt) {
   var speed = document.querySelector("video").playbackRate;
@@ -76,4 +97,5 @@ document.onkeypress = function (evt) {
   }
   localStorage.setItem("speedYoutube", initSpeed);
   speedDisplay.innerHTML = `<i class="fas fa-tachometer-alt icon"></i> ${speed}`;
+  showControls();
 };
