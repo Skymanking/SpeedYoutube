@@ -1,5 +1,4 @@
 var initSpeed = localStorage.getItem("speedYoutube") || 1;
-document.querySelector("video").playbackRate = initSpeed;
 
 // Add Font Awesome CSS
 const fontAwesome = document.createElement('link');
@@ -26,6 +25,21 @@ const increaseBtn = document.createElement('button');
 increaseBtn.id = 'increaseBtn';
 increaseBtn.innerHTML = '<i class="fas fa-plus icon"></i>';
 
+// Function to update YouTube's session storage
+function updateYouTubeSpeed(speed) {
+  try {
+    // Update session storage
+    const sessionData = sessionStorage.getItem('yt-player-playback-rate');
+    if (sessionData) {
+      const data = JSON.parse(sessionData);
+      data.data = speed;
+      sessionStorage.setItem('yt-player-playback-rate', JSON.stringify(data));
+    }
+  } catch (e) {
+    console.error('Error updating YouTube speed:', e);
+  }
+}
+
 // Add click event listeners to buttons
 decreaseBtn.addEventListener('click', () => {
     const video = document.querySelector("video");
@@ -34,6 +48,7 @@ decreaseBtn.addEventListener('click', () => {
     initSpeed = newSpeed;
     localStorage.setItem("speedYoutube", initSpeed);
     speedDisplay.innerHTML = `<i class="fas fa-tachometer-alt icon"></i> ${newSpeed}`;
+    updateYouTubeSpeed(newSpeed);
     showControls();
 });
 
@@ -44,6 +59,7 @@ increaseBtn.addEventListener('click', () => {
     initSpeed = newSpeed;
     localStorage.setItem("speedYoutube", initSpeed);
     speedDisplay.innerHTML = `<i class="fas fa-tachometer-alt icon"></i> ${newSpeed}`;
+    updateYouTubeSpeed(newSpeed);
     showControls();
 });
 
@@ -53,6 +69,7 @@ speedDisplay.addEventListener('click', () => {
   initSpeed = 1;
   localStorage.setItem("speedYoutube", initSpeed);
   speedDisplay.innerHTML = `<i class="fas fa-tachometer-alt icon"></i> 1`;
+  updateYouTubeSpeed(1);
   showControls();
 });
 
@@ -102,5 +119,8 @@ document.addEventListener('keydown', function(evt) {
   }
   localStorage.setItem("speedYoutube", initSpeed);
   speedDisplay.innerHTML = `<i class="fas fa-tachometer-alt icon"></i> ${speed}`;
+  updateYouTubeSpeed(speed);
   showControls();
 });
+
+document.querySelector("video").playbackRate = initSpeed;
