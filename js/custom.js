@@ -80,17 +80,17 @@ function showControls() {
 // Show controls initially and set timeout to hide them
 showControls();
 
-document.onkeypress = function (evt) {
+// Replace deprecated onkeypress with addEventListener
+document.addEventListener('keydown', function(evt) {
   var speed = document.querySelector("video").playbackRate;
-  evt = evt || window.event;
-  var charCode = evt.keyCode || evt.which;
-  var charStr = String.fromCharCode(charCode);
-  if (charStr == "z" || charStr == "Z") {
+  var charStr = evt.key;
+  
+  if (charStr === "z" || charStr === "Z") {
     speed = Math.max(0.25, speed - 0.25);
     document.querySelector("video").playbackRate = speed;
     initSpeed = speed;
   }
-  if (charStr == "x" || charStr == "X") {
+  if (charStr === "x" || charStr === "X") {
     speed = Math.min(16, speed + 0.25);
     document.querySelector("video").playbackRate = speed;
     initSpeed = speed;
@@ -98,4 +98,4 @@ document.onkeypress = function (evt) {
   localStorage.setItem("speedYoutube", initSpeed);
   speedDisplay.innerHTML = `<i class="fas fa-tachometer-alt icon"></i> ${speed}`;
   showControls();
-};
+});
