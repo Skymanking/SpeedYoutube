@@ -40,27 +40,66 @@ function updateYouTubeSpeed(speed) {
   }
 }
 
+// Function to set video speed
+function setVideoSpeed(speed) {
+  const video = document.querySelector("video");
+  if (video) {
+    video.playbackRate = speed;
+    updateYouTubeSpeed(speed);
+  }
+}
+
+// Function to wait for video element and set initial speed
+function waitForVideo() {
+  const video = document.querySelector("video");
+  if (video) {
+    setVideoSpeed(initSpeed);
+  } else {
+    // If video not found, try again in 500ms
+    setTimeout(waitForVideo, 500);
+  }
+}
+
+// Start waiting for video element
+waitForVideo();
+
+// Detect URL changes
+let lastUrl = window.location.href;
+const urlObserver = new MutationObserver(() => {
+  if(window.location.href == "https://www.youtube.com"){
+    return;
+  }
+  if (window.location.href !== lastUrl) {
+    lastUrl = window.location.href;
+    // URL has changed, wait for new video and set speed
+    setTimeout(waitForVideo, 1000);
+  }
+});
+
+// Start observing URL changes
+urlObserver.observe(document.body, { subtree: true, childList: true });
+
 // Add click event listeners to buttons
 decreaseBtn.addEventListener('click', () => {
-    const video = document.querySelector("video");
-    const newSpeed = Math.max(0.25, video.playbackRate - 0.25);
-    video.playbackRate = newSpeed;
-    initSpeed = newSpeed;
-    localStorage.setItem("speedYoutube", initSpeed);
-    speedDisplay.innerHTML = `<i class="fas fa-tachometer-alt icon"></i> ${newSpeed}`;
-    updateYouTubeSpeed(newSpeed);
-    showControls();
+  const video = document.querySelector("video");
+  const newSpeed = Math.max(0.25, video.playbackRate - 0.25);
+  video.playbackRate = newSpeed;
+  initSpeed = newSpeed;
+  localStorage.setItem("speedYoutube", initSpeed);
+  speedDisplay.innerHTML = `<i class="fas fa-tachometer-alt icon"></i> ${newSpeed}`;
+  updateYouTubeSpeed(newSpeed);
+  showControls();
 });
 
 increaseBtn.addEventListener('click', () => {
-    const video = document.querySelector("video");
-    const newSpeed = Math.min(16, video.playbackRate + 0.25);
-    video.playbackRate = newSpeed;
-    initSpeed = newSpeed;
-    localStorage.setItem("speedYoutube", initSpeed);
-    speedDisplay.innerHTML = `<i class="fas fa-tachometer-alt icon"></i> ${newSpeed}`;
-    updateYouTubeSpeed(newSpeed);
-    showControls();
+  const video = document.querySelector("video");
+  const newSpeed = Math.min(16, video.playbackRate + 0.25);
+  video.playbackRate = newSpeed;
+  initSpeed = newSpeed;
+  localStorage.setItem("speedYoutube", initSpeed);
+  speedDisplay.innerHTML = `<i class="fas fa-tachometer-alt icon"></i> ${newSpeed}`;
+  updateYouTubeSpeed(newSpeed);
+  showControls();
 });
 
 speedDisplay.addEventListener('click', () => {
@@ -81,17 +120,17 @@ document.body.appendChild(controlsContainer);
 
 // Function to show controls
 function showControls() {
-    controlsContainer.classList.remove('hidden');
-    
-    // Clear any existing timeout
-    if (window.hideControlsTimeout) {
-        clearTimeout(window.hideControlsTimeout);
-    }
-    
-    // Set timeout to hide controls after 5 seconds
-    window.hideControlsTimeout = setTimeout(() => {
-        controlsContainer.classList.add('hidden');
-    }, 5000);
+  controlsContainer.classList.remove('hidden');
+  
+  // Clear any existing timeout
+  if (window.hideControlsTimeout) {
+    clearTimeout(window.hideControlsTimeout);
+  }
+  
+  // Set timeout to hide controls after 5 seconds
+  window.hideControlsTimeout = setTimeout(() => {
+    controlsContainer.classList.add('hidden');
+  }, 5000);
 }
 
 // Show controls initially and set timeout to hide them
