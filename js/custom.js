@@ -3,13 +3,12 @@ var initSpeed = localStorage.getItem("speedYoutube") || 1;
 // Add Font Awesome CSS
 const fontAwesome = document.createElement('link');
 fontAwesome.rel = 'stylesheet';
-fontAwesome.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css';
 document.head.appendChild(fontAwesome);
 
 // Create speed display div
 const speedDisplay = document.createElement('div');
 speedDisplay.id = 'speedDisplay';
-speedDisplay.innerHTML = `<i class="fas fa-tachometer-alt icon"></i> ${initSpeed}`;
+speedDisplay.innerHTML = `${initSpeed}`;
 
 // Create container for controls
 const controlsContainer = document.createElement('div');
@@ -18,12 +17,12 @@ controlsContainer.id = 'controlsContainer';
 // Create decrease speed button
 const decreaseBtn = document.createElement('button');
 decreaseBtn.id = 'decreaseBtn';
-decreaseBtn.innerHTML = '<i class="fas fa-minus icon"></i>';
+decreaseBtn.innerHTML = '-';
 
 // Create increase speed button
 const increaseBtn = document.createElement('button');
 increaseBtn.id = 'increaseBtn';
-increaseBtn.innerHTML = '<i class="fas fa-plus icon"></i>';
+increaseBtn.innerHTML = '+';
 
 // Function to update YouTube's session storage
 function updateYouTubeSpeed(speed) {
@@ -86,7 +85,7 @@ decreaseBtn.addEventListener('click', () => {
   video.playbackRate = newSpeed;
   initSpeed = newSpeed;
   localStorage.setItem("speedYoutube", initSpeed);
-  speedDisplay.innerHTML = `<i class="fas fa-tachometer-alt icon"></i> ${newSpeed}`;
+  speedDisplay.innerHTML = `${newSpeed}`;
   updateYouTubeSpeed(newSpeed);
   showControls();
 });
@@ -97,7 +96,7 @@ increaseBtn.addEventListener('click', () => {
   video.playbackRate = newSpeed;
   initSpeed = newSpeed;
   localStorage.setItem("speedYoutube", initSpeed);
-  speedDisplay.innerHTML = `<i class="fas fa-tachometer-alt icon"></i> ${newSpeed}`;
+  speedDisplay.innerHTML = `${newSpeed}`;
   updateYouTubeSpeed(newSpeed);
   showControls();
 });
@@ -107,7 +106,7 @@ speedDisplay.addEventListener('click', () => {
   video.playbackRate = 1;
   initSpeed = 1;
   localStorage.setItem("speedYoutube", initSpeed);
-  speedDisplay.innerHTML = `<i class="fas fa-tachometer-alt icon"></i> 1`;
+  speedDisplay.innerHTML = `1`;
   updateYouTubeSpeed(1);
   showControls();
 });
